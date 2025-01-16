@@ -1,1 +1,2 @@
 # compare-spectra
+Following the [EcoSIS API tutorial](http://cstars.github.io/ecosis/), this project shows how to downloading and testing spectra from the EcoSIS API using Python, using scipy's bspline interpolator.
