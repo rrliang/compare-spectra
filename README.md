@@ -18,6 +18,7 @@ Make sure that you are either cd into the project folder containing the requirem
 
 After these steps, you should be all set to run the example python file.
 
+---
 ### Querying EcoSIS
 #### Dataset
 If you want to query the database and extract data, you can follow these steps. First, you will need to figure out information about the dataset(s) that you are interested in accessing. You can search the EcoSIS API using the following link:
