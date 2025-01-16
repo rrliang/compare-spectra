@@ -55,11 +55,7 @@ else:
 # Download results
 for idx, data_id in enumerate(dataset_ids):
     spectral_url = f"https://ecosis.org/api/package/{data_id}/export?metadata=false"
-    print(spectral_url)
-    params = {
-        'metadata': False,  # Should the metadata be included in the csv file (boolean)
-        # 'filters':, # filters - the array of filters (JSON) (optional)
-    }
+    # print(spectral_url)
     
     import pandas as pd
     df = pd.read_csv(spectral_url)

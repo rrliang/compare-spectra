@@ -84,3 +84,20 @@ else:
 ```
 
 #### Spectra
+Using the dataset id found, you can extract the spectral data. Keep in mind that the EcoSIS datasets come with multiple spectral data, and the code from above may result in multiple datasets, so you will need to loop through all the datasets, and then all the spectral data from each dataset if you want to access all data found from the database query.
+
+Continuing the previous code example, this block of code will access the spectrum in all resulting datasets and convert them into a pandas dataframe.
+
+```
+for idx, data_id in enumerate(dataset_ids):
+    spectral_url = f"https://ecosis.org/api/package/{data_id}/export?metadata=false"
+    
+    import pandas as pd
+    df = pd.read_csv(spectral_url)
+    df = df.apply(pd.to_numeric, errors='coerce')
+    wavelengths = df.columns.tolist()
+
+    spectra = df.iloc[1:].values.tolist()
+```
+
+From here, you can do the analyze the data however you'd like.
