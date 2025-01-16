@@ -6,7 +6,7 @@ import urllib.parse
 import json
 import os
 
-dataset_url = "https://ecosis.org/api/package/search?"
+dataset_url = "https://ecosis.org/api/package/search"
 
 # Define query parameters for dataset search (no filters here, just an example search query)
 filters = [
