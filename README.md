@@ -102,3 +102,49 @@ for idx, data_id in enumerate(dataset_ids):
 ```
 
 From here, you can do the analyze the data however you'd like.
+
+#### Bspline interpolation
+Using scipy splev and splrep for bspline interpolation, we can approximate the spectrum curve. 
+
+Independent variables for this experiment are the number of knots, degree of the bspline, and smoothing condition. Dependent variables would be the knots and coefficients needed to represent your spectra.
+
+First, you must figure out how many knots you want to use to interpolate. This is up to you, but theoretically **the more knots you have to represent the specrtum curve, the more accurate your interpolation**. Once you have an idea of the number of knots, you can create a knots array - finding the wavelengths (or 'x' data) that will represent each knot. In this example, the knots were found based on an even interpolation based of the wavelengths array.
+
+Next, you can use the splrep function to find the coefficients of the bspline curve. Assuming that the x data is the wavelengths, the y data is the spectrum, the smoothing factor is 0, the degree of the bspline curve is 3, and the code would look like:
+
+```
+# Independent variables
+x = wavelengths
+y = spectra
+num_knots = 10  
+smooth_factor = 0
+degree = 3
+
+knots_idx = np.linspace(1, len(x) - 2, num_knots, dtype=int)
+knots = x[knot_idx]
+
+spline_rep = splrep(x, y, s=0, k=degree, t=knots)
+
+```
+
+In the code above, the spline_rep would be a tuple of knots, coefficients, and degree (respectively). Additionally, you could reuse this to approximate the curve of other data besides wavelength's spectra- just replace the x and y variables.
+
+Next, once you have your knots and coefficients, you can use splev to evaluate the spline you found, and see how far off the interpolation is from the original curves. This can be done similar to the following code:
+
+```
+spectrum_fine = splev(x, spline_rep)
+
+# Compute residuals (differences between original y and spline fit)
+residuals = filtered_spectrum - spectrum_fine
+
+# Calculate MSE and RMSE
+mse = mean_squared_error(filtered_spectrum, spectrum_fine)
+rmse = np.sqrt(mse)
+
+# Calculate R-squared
+total_variance = np.sum((filtered_spectrum - np.mean(filtered_spectrum))**2)
+residual_variance = np.sum(residuals**2)
+r_squared = 1 - (residual_variance / total_variance)
+```
+
+Official documentation on the splrep function can be found [here](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.splrep.html). Official documetion on splev can be found [here](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.splev.html)
